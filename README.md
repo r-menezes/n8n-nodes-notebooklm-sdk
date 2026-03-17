@@ -1,3 +1,5 @@
+<img src="nodes/NotebookLm/notebooklm.svg" width="90" height="90">
+
 # n8n-nodes-notebooklm
 
 An [n8n](https://n8n.io) community node for [Google NotebookLM](https://notebooklm.google.com). Manage notebooks, sources, artifacts, chat, and notes from your n8n workflows.
@@ -26,23 +28,23 @@ npm install n8n-nodes-notebooklm
 
 NotebookLM uses Google session cookies — there is no public API key. You need to provide your browser session cookies as a credential.
 
-### Getting your cookies
+### Getting your session
 
-1. Install the SDK login helper:
+1. Run the login helper:
    ```bash
    npx notebooklm-sdk login
    ```
 2. A browser window will open. Sign in to your Google account.
 3. The session is saved to `~/.notebooklm/session.json`.
-4. Extract the cookie string from that file, or use the `NOTEBOOKLM_COOKIES` format:
-   ```
-   SID=abc123; HSID=xyz; SSID=...; ...
+4. Copy the entire file contents:
+   ```bash
+   cat ~/.notebooklm/session.json
    ```
 
 ### Adding the credential in n8n
 
 1. Go to **Credentials → New Credential → NotebookLM API**
-2. Paste your cookie string into the **Cookie String** field
+2. Paste the full `session.json` contents into the **Session JSON** field
 3. Save
 
 > Cookies expire periodically. Re-run `npx notebooklm-sdk login` and update the credential when you get authentication errors.
@@ -53,49 +55,49 @@ NotebookLM uses Google session cookies — there is no public API key. You need 
 
 ### Notebook
 
-| Operation | Description |
-|---|---|
-| List | List all notebooks in your account |
-| Get | Get a notebook by ID |
-| Create | Create a new notebook |
-| Delete | Delete a notebook |
+| Operation | Description                        |
+| --------- | ---------------------------------- |
+| List      | List all notebooks in your account |
+| Get       | Get a notebook by ID               |
+| Create    | Create a new notebook              |
+| Delete    | Delete a notebook                  |
 
 ### Source
 
-| Operation | Description | Parameters |
-|---|---|---|
-| List | List all sources in a notebook | Notebook ID |
-| Add URL | Add a web URL as a source | Notebook ID, URL |
-| Add Text | Add plain text as a source | Notebook ID, Title, Content |
-| Get Fulltext | Get the full extracted text of a source | Notebook ID, Source ID |
-| Delete | Delete a source | Notebook ID, Source ID |
+| Operation    | Description                             | Parameters                  |
+| ------------ | --------------------------------------- | --------------------------- |
+| List         | List all sources in a notebook          | Notebook ID                 |
+| Add URL      | Add a web URL as a source               | Notebook ID, URL            |
+| Add Text     | Add plain text as a source              | Notebook ID, Title, Content |
+| Get Fulltext | Get the full extracted text of a source | Notebook ID, Source ID      |
+| Delete       | Delete a source                         | Notebook ID, Source ID      |
 
 ### Artifact
 
-| Operation | Description | Parameters |
-|---|---|---|
-| List | List all artifacts | Notebook ID |
-| List Audio Overviews | List audio overview artifacts | Notebook ID |
-| List Reports | List report artifacts | Notebook ID |
-| Create Audio Overview | Generate an audio overview podcast | Notebook ID |
-| Create Report | Generate a briefing doc, study guide, or blog post | Notebook ID, Format |
-| Create Mind Map | Generate a mind map note | Notebook ID |
-| Export Report | Export a report artifact to Google Docs | Notebook ID, Artifact ID, Title |
+| Operation             | Description                                        | Parameters                      |
+| --------------------- | -------------------------------------------------- | ------------------------------- |
+| List                  | List all artifacts                                 | Notebook ID                     |
+| List Audio Overviews  | List audio overview artifacts                      | Notebook ID                     |
+| List Reports          | List report artifacts                              | Notebook ID                     |
+| Create Audio Overview | Generate an audio overview podcast                 | Notebook ID                     |
+| Create Report         | Generate a briefing doc, study guide, or blog post | Notebook ID, Format             |
+| Create Mind Map       | Generate a mind map note                           | Notebook ID                     |
+| Export Report         | Export a report artifact to Google Docs            | Notebook ID, Artifact ID, Title |
 
 **Report formats:** `Briefing Doc`, `Study Guide`, `Blog Post`
 
 ### Chat
 
-| Operation | Description | Parameters |
-|---|---|---|
-| Ask | Send a question and receive a grounded response | Notebook ID, Message |
+| Operation | Description                                     | Parameters           |
+| --------- | ----------------------------------------------- | -------------------- |
+| Ask       | Send a question and receive a grounded response | Notebook ID, Message |
 
 ### Note
 
-| Operation | Description | Parameters |
-|---|---|---|
-| List | List all text notes in a notebook | Notebook ID |
-| Create | Create a new note | Notebook ID, Content |
+| Operation | Description                       | Parameters           |
+| --------- | --------------------------------- | -------------------- |
+| List      | List all text notes in a notebook | Notebook ID          |
+| Create    | Create a new note                 | Notebook ID, Content |
 
 ---
 

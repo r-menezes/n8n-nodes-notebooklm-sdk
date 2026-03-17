@@ -1,0 +1,59 @@
+{
+	"name": "NotebookLM - Generate Audio Overview",
+	"nodes": [
+		{
+			"parameters": {},
+			"id": "a1b2c3d4-0003-0001-0001-000000000001",
+			"name": "When clicking 'Test workflow'",
+			"type": "n8n-nodes-base.manualTrigger",
+			"typeVersion": 1,
+			"position": [240, 300]
+		},
+		{
+			"parameters": {
+				"resource": "artifact",
+				"operation": "createAudio",
+				"notebookId": "={{ $json.notebookId }}"
+			},
+			"id": "a1b2c3d4-0003-0001-0001-000000000002",
+			"name": "Generate Audio Overview",
+			"type": "CUSTOM.notebookLm",
+			"typeVersion": 1,
+			"position": [460, 300],
+			"credentials": {
+				"notebookLmApi": {
+					"id": "1",
+					"name": "NotebookLM account"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"resource": "artifact",
+				"operation": "listAudio",
+				"notebookId": "={{ $json.notebookId }}"
+			},
+			"id": "a1b2c3d4-0003-0001-0001-000000000003",
+			"name": "List Audio Overviews",
+			"type": "CUSTOM.notebookLm",
+			"typeVersion": 1,
+			"position": [680, 300],
+			"credentials": {
+				"notebookLmApi": {
+					"id": "1",
+					"name": "NotebookLM account"
+				}
+			}
+		}
+	],
+	"connections": {
+		"When clicking 'Test workflow'": {
+			"main": [
+				[{ "node": "Generate Audio Overview", "type": "main", "index": 0 }]
+			]
+		},
+		"Generate Audio Overview": {
+			"main": [[{ "node": "List Audio Overviews", "type": "main", "index": 0 }]]
+		}
+	}
+}

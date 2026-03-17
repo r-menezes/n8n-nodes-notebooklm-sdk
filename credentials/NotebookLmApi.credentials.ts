@@ -1,22 +1,20 @@
-import { ICredentialType, INodeProperties } from 'n8n-workflow';
+import type { ICredentialType, INodeProperties } from "n8n-workflow";
 
 export class NotebookLmApi implements ICredentialType {
-	name = 'notebookLmApi';
-	displayName = 'NotebookLM API';
-	documentationUrl = 'https://github.com/agmmnn/notebooklm-sdk#readme';
+	name = "notebookLmApi";
+	displayName = "NotebookLM API";
+	documentationUrl = "https://github.com/agmmnn/notebooklm-sdk#readme";
 	properties: INodeProperties[] = [
 		{
-			displayName: 'Cookie String',
-			name: 'cookieString',
-			type: 'string',
-			typeOptions: { password: true },
-			default: '',
+			displayName: "Session JSON",
+			name: "sessionJson",
+			type: "string",
+			typeOptions: { password: true, rows: 4 },
+			default: "",
 			required: true,
 			description:
-				'Google session cookies as a "; "-separated string (e.g. "SID=abc; HSID=xyz"). ' +
-				'Run <code>npx notebooklm-sdk login</code>, then open ' +
-				'<code>~/.notebooklm/session.json</code> or set the ' +
-				'<code>NOTEBOOKLM_COOKIES</code> env var.',
+				"Paste the full contents of <code>~/.notebooklm/session.json</code>. " +
+				"Generate it by running: <code>npx notebooklm-sdk login</code>",
 		},
 	];
 }

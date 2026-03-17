@@ -22,8 +22,13 @@
 	"scripts": {
 		"build": "tsc --project tsconfig.json && node scripts/copy-icons.js",
 		"dev": "tsc --project tsconfig.json --watch",
-		"lint": "eslint nodes credentials --ext .ts",
-		"prepublishOnly": "npm run build"
+		"lint": "biome check .",
+		"lint:fix": "biome check --write .",
+		"format": "biome format --write .",
+		"prepublishOnly": "npm run build",
+		"changeset": "changeset",
+		"version": "changeset version",
+		"release": "npm run build && changeset publish --provenance"
 	},
 	"files": [
 		"dist"
@@ -41,14 +46,20 @@
 		"notebooklm-sdk": "^0.3.4"
 	},
 	"devDependencies": {
-		"@types/node": "^20.0.0",
-		"n8n-workflow": "^1.0.0",
-		"typescript": "^5.0.0"
+		"@biomejs/biome": "^2.4.7",
+		"@changesets/cli": "^2.30.0",
+		"@types/node": "^25.5.0",
+		"n8n-workflow": "^2.13.0",
+		"typescript": "^5.9.3"
 	},
 	"peerDependencies": {
 		"n8n-workflow": "^1.0.0"
 	},
 	"engines": {
 		"node": ">=18"
+	},
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
 	}
 }

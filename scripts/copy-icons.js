@@ -1,6 +1,6 @@
 // Copies SVG/PNG icons from nodes/** into dist/nodes/** after tsc compile.
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 function copyIcons(srcDir, destDir) {
 	if (!fs.existsSync(srcDir)) return;
@@ -18,6 +18,6 @@ function copyIcons(srcDir, destDir) {
 }
 
 copyIcons(
-	path.join(__dirname, '..', 'nodes'),
-	path.join(__dirname, '..', 'dist', 'nodes'),
+	path.join(__dirname, "..", "nodes"),
+	path.join(__dirname, "..", "dist", "nodes"),
 );

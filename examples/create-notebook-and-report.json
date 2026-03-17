@@ -1,0 +1,82 @@
+{
+	"name": "NotebookLM - Create Notebook, Add Source, Generate Report",
+	"nodes": [
+		{
+			"parameters": {},
+			"id": "a1b2c3d4-0004-0001-0001-000000000001",
+			"name": "When clicking 'Test workflow'",
+			"type": "n8n-nodes-base.manualTrigger",
+			"typeVersion": 1,
+			"position": [240, 300]
+		},
+		{
+			"parameters": {
+				"resource": "notebook",
+				"operation": "create",
+				"title": "My Research Notebook"
+			},
+			"id": "a1b2c3d4-0004-0001-0001-000000000002",
+			"name": "Create Notebook",
+			"type": "CUSTOM.notebookLm",
+			"typeVersion": 1,
+			"position": [460, 300],
+			"credentials": {
+				"notebookLmApi": {
+					"id": "1",
+					"name": "NotebookLM account"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"resource": "source",
+				"operation": "addUrl",
+				"notebookId": "={{ $json.id }}",
+				"url": "https://example.com/article"
+			},
+			"id": "a1b2c3d4-0004-0001-0001-000000000003",
+			"name": "Add Source",
+			"type": "CUSTOM.notebookLm",
+			"typeVersion": 1,
+			"position": [680, 300],
+			"credentials": {
+				"notebookLmApi": {
+					"id": "1",
+					"name": "NotebookLM account"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"resource": "artifact",
+				"operation": "createReport",
+				"notebookId": "={{ $json.notebookId }}",
+				"reportFormat": "briefing_doc"
+			},
+			"id": "a1b2c3d4-0004-0001-0001-000000000004",
+			"name": "Generate Briefing Doc",
+			"type": "CUSTOM.notebookLm",
+			"typeVersion": 1,
+			"position": [900, 300],
+			"credentials": {
+				"notebookLmApi": {
+					"id": "1",
+					"name": "NotebookLM account"
+				}
+			}
+		}
+	],
+	"connections": {
+		"When clicking 'Test workflow'": {
+			"main": [[{ "node": "Create Notebook", "type": "main", "index": 0 }]]
+		},
+		"Create Notebook": {
+			"main": [[{ "node": "Add Source", "type": "main", "index": 0 }]]
+		},
+		"Add Source": {
+			"main": [
+				[{ "node": "Generate Briefing Doc", "type": "main", "index": 0 }]
+			]
+		}
+	}
+}
