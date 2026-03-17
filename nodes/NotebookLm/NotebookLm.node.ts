@@ -1096,6 +1096,13 @@ export class NotebookLm implements INodeType {
 						});
 					} else if (operation === "waitUntilReady") {
 						const artifactId = this.getNodeParameter("artifactId", i) as string;
+						if (!artifactId || artifactId === "null") {
+							throw new NodeOperationError(
+								this.getNode(),
+								"Artifact ID is null — the previous create operation failed to start generation.",
+								{ itemIndex: i },
+							);
+						}
 						const timeout = this.getNodeParameter("timeout", i) as number;
 						const pollInterval = this.getNodeParameter("pollInterval", i) as number;
 						result = await client.artifacts.waitUntilReady(

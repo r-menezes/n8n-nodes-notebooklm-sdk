@@ -1,125 +1,167 @@
 {
-	"name": "NotebookLM - Create and Download Infographic",
-	"nodes": [
-		{
-			"parameters": {},
-			"id": "a1b2c3d4-0006-0001-0001-000000000001",
-			"name": "When clicking 'Test workflow'",
-			"type": "n8n-nodes-base.manualTrigger",
-			"typeVersion": 1,
-			"position": [240, 300]
-		},
-		{
-			"parameters": {
-				"resource": "notebook",
-				"operation": "list"
-			},
-			"id": "a1b2c3d4-0006-0001-0001-000000000002",
-			"name": "List Notebooks",
-			"type": "CUSTOM.notebookLm",
-			"typeVersion": 1,
-			"position": [460, 300],
-			"credentials": {
-				"notebookLmApi": {
-					"id": "1",
-					"name": "NotebookLM account"
-				}
-			}
-		},
-		{
-			"parameters": {
-				"jsCode": "// Notebooks are returned in most-recently-accessed order.\n// Take the first one.\nreturn [$input.first()];"
-			},
-			"id": "a1b2c3d4-0006-0001-0001-000000000003",
-			"name": "Pick Latest Notebook",
-			"type": "n8n-nodes-base.code",
-			"typeVersion": 2,
-			"position": [680, 300]
-		},
-		{
-			"parameters": {
-				"resource": "artifact",
-				"operation": "createInfographic",
-				"notebookId": "={{ $json.id }}"
-			},
-			"id": "a1b2c3d4-0006-0001-0001-000000000004",
-			"name": "Create Infographic",
-			"type": "CUSTOM.notebookLm",
-			"typeVersion": 1,
-			"position": [900, 300],
-			"credentials": {
-				"notebookLmApi": {
-					"id": "1",
-					"name": "NotebookLM account"
-				}
-			}
-		},
-		{
-			"parameters": {
-				"resource": "artifact",
-				"operation": "waitUntilReady",
-				"notebookId": "={{ $('Pick Latest Notebook').first().json.id }}",
-				"artifactId": "={{ $json.artifactId }}",
-				"timeout": 300,
-				"pollInterval": 5
-			},
-			"id": "a1b2c3d4-0006-0001-0001-000000000005",
-			"name": "Wait Until Ready",
-			"type": "CUSTOM.notebookLm",
-			"typeVersion": 1,
-			"position": [1120, 300],
-			"credentials": {
-				"notebookLmApi": {
-					"id": "1",
-					"name": "NotebookLM account"
-				}
-			}
-		},
-		{
-			"parameters": {
-				"resource": "artifact",
-				"operation": "downloadInfographic",
-				"notebookId": "={{ $('Pick Latest Notebook').first().json.id }}",
-				"artifactId": "={{ $json.id }}"
-			},
-			"id": "a1b2c3d4-0006-0001-0001-000000000006",
-			"name": "Download Infographic",
-			"type": "CUSTOM.notebookLm",
-			"typeVersion": 1,
-			"position": [1340, 300],
-			"credentials": {
-				"notebookLmApi": {
-					"id": "1",
-					"name": "NotebookLM account"
-				}
-			}
-		}
-	],
-	"connections": {
-		"When clicking 'Test workflow'": {
-			"main": [
-				[{ "node": "List Notebooks", "type": "main", "index": 0 }]
-			]
-		},
-		"List Notebooks": {
-			"main": [
-				[{ "node": "Pick Latest Notebook", "type": "main", "index": 0 }]
-			]
-		},
-		"Pick Latest Notebook": {
-			"main": [
-				[{ "node": "Create Infographic", "type": "main", "index": 0 }]
-			]
-		},
-		"Create Infographic": {
-			"main": [
-				[{ "node": "Wait Until Ready", "type": "main", "index": 0 }]
-			]
-		},
-		"Wait Until Ready": {
-			"main": [
-				[{ "node": "Download Infographic", "type": "main", "index": 0 }]
-			]
-		}
-	}
+  "name": "NotebookLM - Create and Download Infographic",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "cf33b182-855b-47dd-8a7f-5068622faef3",
+      "name": "When clicking 'Test workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-1248, -144]
+    },
+    {
+      "parameters": {},
+      "id": "d429237c-ba38-41e0-a63d-a9dfc8fab250",
+      "name": "List Notebooks",
+      "type": "CUSTOM.notebookLm",
+      "typeVersion": 1,
+      "position": [-1024, -144],
+      "credentials": {
+        "notebookLmApi": {
+          "id": "5CoWzRmSLPqS5hiK",
+          "name": "NotebookLM account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Notebooks are returned in most-recently-accessed order.\n// Take the first one.\nreturn [$input.first()];"
+      },
+      "id": "66bf1f9f-f22a-44be-a91a-8e65324d8621",
+      "name": "Pick Latest Notebook",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-800, -144]
+    },
+    {
+      "parameters": {
+        "resource": "artifact",
+        "operation": "createInfographic",
+        "notebookId": "={{ $json.id }}",
+        "infographicOrientation": 1,
+        "infographicStyle": 6
+      },
+      "id": "99688542-a189-44a5-9f84-36d63e190619",
+      "name": "Create Infographic",
+      "type": "CUSTOM.notebookLm",
+      "typeVersion": 1,
+      "position": [-592, -144],
+      "credentials": {
+        "notebookLmApi": {
+          "id": "5CoWzRmSLPqS5hiK",
+          "name": "NotebookLM account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "artifact",
+        "operation": "waitUntilReady",
+        "notebookId": "={{ $('Pick Latest Notebook').first().json.id }}",
+        "artifactId": "={{ $json.artifactId }}",
+        "timeout": 300,
+        "pollInterval": 5
+      },
+      "id": "8df0d5d7-f014-4b63-8af5-6d9918d93aef",
+      "name": "Wait Until Ready",
+      "type": "CUSTOM.notebookLm",
+      "typeVersion": 1,
+      "position": [-368, -144],
+      "credentials": {
+        "notebookLmApi": {
+          "id": "5CoWzRmSLPqS5hiK",
+          "name": "NotebookLM account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "artifact",
+        "operation": "downloadInfographic",
+        "notebookId": "={{ $('Pick Latest Notebook').first().json.id }}",
+        "artifactId": "={{ $json.id }}"
+      },
+      "id": "c435aa91-da48-4d10-a353-f963e3ebfbe8",
+      "name": "Download Infographic",
+      "type": "CUSTOM.notebookLm",
+      "typeVersion": 1,
+      "position": [-144, -144],
+      "credentials": {
+        "notebookLmApi": {
+          "id": "5CoWzRmSLPqS5hiK",
+          "name": "NotebookLM account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking 'Test workflow'": {
+      "main": [
+        [
+          {
+            "node": "List Notebooks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List Notebooks": {
+      "main": [
+        [
+          {
+            "node": "Pick Latest Notebook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pick Latest Notebook": {
+      "main": [
+        [
+          {
+            "node": "Create Infographic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Infographic": {
+      "main": [
+        [
+          {
+            "node": "Wait Until Ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait Until Ready": {
+      "main": [
+        [
+          {
+            "node": "Download Infographic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "2544e4ee-2d8d-46d7-a4c1-4460af56876b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f1dee560207fa1fe36c55e028d3fe49aa07d051cb2c4bc68adde230f6b3fa684"
+  },
+  "id": "y6MLtyys1lycpjAK",
+  "tags": []
 }
