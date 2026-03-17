@@ -1,6 +1,6 @@
 <img src="nodes/NotebookLm/notebooklm.svg" width="90" height="90">
 
-# n8n-nodes-notebooklm
+# n8n-nodes-notebooklm-sdk
 
 An [n8n](https://n8n.io) community node for [Google NotebookLM](https://notebooklm.google.com). Manage notebooks, sources, artifacts, chat, and notes from your n8n workflows.
 
@@ -13,13 +13,13 @@ Built on top of [notebooklm-sdk](https://github.com/agmmnn/notebooklm-sdk).
 In your n8n instance, go to **Settings → Community Nodes → Install** and enter:
 
 ```
-n8n-nodes-notebooklm
+n8n-nodes-notebooklm-sdk
 ```
 
 Or install manually:
 
 ```bash
-npm install n8n-nodes-notebooklm
+npm install n8n-nodes-notebooklm-sdk
 ```
 
 ---
