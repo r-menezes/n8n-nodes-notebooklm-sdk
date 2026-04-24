@@ -194,6 +194,12 @@ export class NotebookLm implements INodeType {
 						action: "Create quiz",
 					},
 					{
+						name: "Create Flashcards",
+						value: "createFlashcards",
+						description: "Generate flashcards",
+						action: "Create flashcards",
+					},
+					{
 						name: "Create Slide Deck",
 						value: "createSlideDeck",
 						description: "Generate a slide deck",
@@ -752,6 +758,60 @@ export class NotebookLm implements INodeType {
 			},
 
 			// ----------------------------------------------------------------
+			// Artifact: createFlashcards options
+			// ----------------------------------------------------------------
+			{
+				displayName: "Quantity",
+				name: "flashcardsQuantity",
+				type: "options",
+				options: [
+					{ name: "Standard", value: 2 },
+					{ name: "Fewer", value: 1 },
+				],
+				default: 2,
+				description: "The number of flashcards to generate",
+				displayOptions: {
+					show: { resource: ["artifact"], operation: ["createFlashcards"] },
+				},
+			},
+			{
+				displayName: "Difficulty",
+				name: "flashcardsDifficulty",
+				type: "options",
+				options: [
+					{ name: "Medium", value: 2 },
+					{ name: "Easy", value: 1 },
+					{ name: "Hard", value: 3 },
+				],
+				default: 2,
+				description: "The difficulty level of the flashcards",
+				displayOptions: {
+					show: { resource: ["artifact"], operation: ["createFlashcards"] },
+				},
+			},
+			{
+				displayName: "Instructions",
+				name: "flashcardsInstructions",
+				type: "string",
+				typeOptions: { rows: 3 },
+				default: "",
+				description: "Optional custom instructions for the flashcards",
+				displayOptions: {
+					show: { resource: ["artifact"], operation: ["createFlashcards"] },
+				},
+			},
+			{
+				displayName: "Source IDs",
+				name: "flashcardsSourceIds",
+				type: "string",
+				default: "",
+				description: "Comma-separated source IDs to use. Leave empty to use all sources in the notebook.",
+				displayOptions: {
+					show: { resource: ["artifact"], operation: ["createFlashcards"] },
+				},
+			},
+
+			// ----------------------------------------------------------------
 			// Artifact: createSlideDeck options
 			// ----------------------------------------------------------------
 			{
@@ -1077,6 +1137,21 @@ export class NotebookLm implements INodeType {
 							difficulty: quizDifficulty,
 							...(quizInstructions && { instructions: quizInstructions }),
 							...(quizSourceIds && { sourceIds: quizSourceIds }),
+						});
+					} else if (operation === "createFlashcards") {
+						const flashcardsQuantity = this.getNodeParameter("flashcardsQuantity", i) as 1 | 2;
+						const flashcardsDifficulty = this.getNodeParameter("flashcardsDifficulty", i) as 1 | 2 | 3;
+						const flashcardsInstructions = this.getNodeParameter("flashcardsInstructions", i) as string;
+						const flashcardsSourceIdsRaw = this.getNodeParameter("flashcardsSourceIds", i) as string;
+						const flashcardsSourceIds = flashcardsSourceIdsRaw
+							? flashcardsSourceIdsRaw.split(",").map((s) => s.trim()).filter(Boolean)
+							: undefined;
+
+						result = await client.artifacts.createFlashcards(notebookId, {
+							quantity: flashcardsQuantity,
+							difficulty: flashcardsDifficulty,
+							...(flashcardsInstructions && { instructions: flashcardsInstructions }),
+							...(flashcardsSourceIds && { sourceIds: flashcardsSourceIds }),
 						});
 					} else if (operation === "createSlideDeck") {
 						const slideDeckCreateFormat = this.getNodeParameter("slideDeckCreateFormat", i) as 1 | 2;
